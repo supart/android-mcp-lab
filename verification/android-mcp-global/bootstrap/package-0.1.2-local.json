@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-20",
+  "version": "0.1.2",
+  "bundleSha256": "882739f19f5701ca906e0f89153f6689758d431a573788e369168926697d5593",
+  "apkSha256": "39fbe125840ebd68eb8c6af7c509f1e8e65ed61f0890f841e29bf83830f3c581",
+  "certificateSha256": "2c44a5870e8a222bf790d45843fd57391e01f28212adea8c50ccce2d68dc2d4b",
+  "manifestContainsCredentials": false,
+  "manifestContainsAvdSnapshots": false,
+  "isolatedInstall": "passed",
+  "statusSingleLineParse": "passed",
+  "toolCount": 63,
+  "uiAndLeaseAcceptance": "passed",
+  "configAcceptance": "passed",
+  "fullBootstrap": "blocked-missing-sdkmanager",
+  "crossComputerAcceptance": "pending",
+  "credentialMaterialSaved": false
+}

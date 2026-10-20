@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "evidenceId": "MC6-Skill-vNext-20260822",
+  "date": "2026-08-22",
+  "scope": {
+    "skill": "%CODEX_HOME%\\skills\\ty-android-mcp",
+    "source": "android-mcp-lab",
+    "install": "%LOCALAPPDATA%\\WhiteCodex\\AndroidMcpLab\\install\\0.1.2"
+  },
+  "status": "SOURCE_AND_INSTALL_VERIFIED",
+  "checks": {
+    "typescript": "passed",
+    "powershellAst": "passed",
+    "vnextContract": "passed",
+    "statusContract": "passed",
+    "configAcceptance": "passed",
+    "sourceInstallHashes": "passed",
+    "leaseDirectory": "empty",
+    "preReloadStaticRecheck": "passed",
+    "physicalTransportGate": "passed",
+    "codexMcpReload": "pending",
+    "secondWindows": "pending",
+    "runtimeScreenSmokeAfterReload": "pending"
+  },
+  "closeoutStaticRecheck": {
+    "rootSource": "passed",
+    "developmentSnapshot": "passed_expected_historical_doc_differences",
+    "sourceInstallKeyHashes": "passed",
+    "nodeModulesJunction": "passed",
+    "zipSha256": "passed",
+    "globalConfigInstallPath": "passed",
+    "leaseDirectory": "external_lease_present_not_owned"
+  },
+  "codexReady013": {
+    "sourceVersion": "0.1.3",
+    "gitRepository": "passed",
+    "mainBaselineTag": "v0.1.2",
+    "activeBranch": "feature/codex-ready-0.1.3",
+    "upstreamRemote": "https://github.com/danielealbano/android-remote-control-mcp.git",
+    "upstreamTag": "v1.11.1",
+    "upstreamCommit": "2b87d46e91421295cd4893185b694612ec2c94d1",
+    "skillCanonicalSource": "passed",
+    "bundleSha256": "3b318449907599f0367040ee06707c6439000644b69285a15e6c69414aab96fb",
+    "bundleIncludesSkill": true,
+    "bundleIncludesBootstrap": true,
+    "offlineInstallDiscoverOnly": "passed",
+    "bootstrapValidateWithoutGlobalSwitch": "passed",
+    "globalRuntime": "%LOCALAPPDATA%\\WhiteCodex\\AndroidMcpLab\\install\\0.1.2",
+    "codexRestart": "pending",
+    "secondWindows": "pending"
+  },
+  "directFixes": [
+    "Skill fresh-state/input/IME/credential policy",
+    "Broker session recovery and catalog mismatch",
+    "stdio lease cleanup on release/cancel/exit",
+    "Supervisor startup phase and adb_unavailable classification",
+    "Source and 0.1.2 install dist entries synchronized"
+  ],
+  "nativeCompanion": {
+    "typeClearText": "not_modified_source_unavailable",
+    "dismissKeyboard": "not_modified_source_unavailable",
+    "bridgePolicy": "postcondition_and_error_classification_required"
+  },
+  "security": {
+    "realModelRequests": 0,
+    "realImageRequests": 0,
+    "oauthRequests": 0,
+    "credentialsCaptured": false,
+    "directAdbUi": false
+  },
+  "next": "After the DSH Mobile task releases Codex/MCP, restart Codex and run codex_api36 devices/acquire/status/screen/release. Do not claim runtime availability before that smoke passes."
+}

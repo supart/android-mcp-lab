@@ -1,0 +1,65 @@
+# Local development dependencies and junctions
+node_modules/
+**/node_modules/
+
+# Runtime state and machine-local data
+state/
+**/state/
+leases/
+**/leases/
+sessions/
+**/sessions/
+logs/*.log
+logs/*.json
+**/logs/*.log
+**/logs/*.json
+**/logs/*.txt
+**/AppData/
+
+# Bundled/runtime payloads generated for local installation
+runtime/node/
+**/runtime/node/
+artifacts/staging/
+artifacts/*/*.zip
+artifacts/*/*.apk
+**/*.zip
+*.apk
+*.aab
+*.apks
+*.avd/
+*.avd-snapshot
+*.img
+*.qcow2
+*.qcow2.*
+
+# Release payloads and machine-local runtime staging are published outside Git.
+**/bundled-node/
+**/runtime-staging/
+**/.mirror-runtime/
+**/broker-state/
+**/broker-state/**
+**/config-backup*.toml
+**/*config-backup*.toml
+
+# Local staging and temporary output
+staging/
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Secrets and private session material
+**/.credentials*
+**/*secret*
+**/*private-session*
+**/*dpapi*
+**/*authorization*
+**/*oauth-token*
+**/.env
+**/.env.*
+!**/.env.example
+**/*.pem
+**/*.p12
+**/*.jks
+**/*.keystore
+**/*.key

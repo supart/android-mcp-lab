@@ -1,0 +1,36 @@
+{
+  "date": "2026-08-20",
+  "version": "0.1.1",
+  "broker": {
+    "bind": "127.0.0.1:18190",
+    "toolCount": 63,
+    "upstreamToolCount": 57,
+    "sharedSession": true
+  },
+  "devices": {
+    "discovered": ["dsh_api36", "dsh_api26", "dsh_api36_test", "openminis_api36", "openminis_api36_arm64"],
+    "mcpEnabled": ["dsh_api36", "dsh_api36_test", "openminis_api36"],
+    "blocked": {
+      "dsh_api26": "pinned MCP requires API 33+",
+      "openminis_api36_arm64": "unsupported arm64-v8a on x86_64 Windows host"
+    }
+  },
+  "smoke": {
+    "genericRoute": "passed",
+    "leaseGuards": "passed",
+    "legacyPrefixProxy": "passed",
+    "legacyReadOnlyScreenRoute": "passed",
+    "installedBundleList": "passed",
+    "installedFreshScreenRoute": "passed",
+    "coldStartAfterBrokerStop": "passed"
+  },
+  "supplyChain": {
+    "upstreamVersion": "1.11.1",
+    "apkSha256": "39fbe125840ebd68eb8c6af7c509f1e8e65ed61f0890f841e29bf83830f3c581",
+    "certificateSha256": "2c44a5870e8a222bf790d45843fd57391e01f28212adea8c50ccce2d68dc2d4b",
+    "bundleSha256": "4576a44a6db48dbdc6675217546d97a2d3cfd6e5d225649c973b7b2e63ff4f51"
+  },
+  "realFhlRequests": 0,
+  "credentialMaterialSaved": false,
+  "crossComputerAcceptance": "pending"
+}

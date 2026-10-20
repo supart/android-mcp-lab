@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-20",
+  "mode": "lease-smoke",
+  "status": "passed",
+  "sameDeviceConflict": true,
+  "expiredLeaseReclaimed": true,
+  "noLeaseWriteBlocked": true,
+  "unknownDeviceBlocked": true,
+  "forbiddenDataSaved": false
+}

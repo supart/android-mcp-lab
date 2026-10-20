@@ -1,0 +1,25 @@
+{
+  "name": "@whitecodex/android-mcp-lab",
+  "version": "0.1.3",
+  "private": true,
+  "type": "module",
+  "description": "Generic local Android emulator MCP control plane for Codex",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node tests/vnext-contract.mjs",
+    "test:status": "pwsh -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File tests/status-contract.ps1",
+    "build": "tsc --outDir dist",
+    "build:bundle": "pwsh -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/Build-AndroidMcpLabBundle.ps1",
+    "build:bundle:dry-run": "pwsh -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/Build-AndroidMcpLabBundle.ps1 -DryRun"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.0",
+    "esbuild": "0.28.1",
+    "tsx": "4.22.4",
+    "typescript": "6.0.3",
+    "vitest": "4.1.8"
+  }
+}

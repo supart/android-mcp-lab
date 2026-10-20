@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-20",
+  "mode": "cold-start",
+  "brokerStoppedFirst": true,
+  "launcher": "install/0.1.1/bridge/launcher.mjs",
+  "deviceId": "codex_api36",
+  "status": "passed",
+  "toolCount": 63,
+  "openApp": "passed",
+  "screenshot": "passed",
+  "pressBack": "passed",
+  "sameDeviceConflict": true,
+  "parallelLease": true,
+  "lease": "released",
+  "forbiddenDataSaved": false
+}

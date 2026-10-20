@@ -1,0 +1,7 @@
+interface:
+  display_name: "TY Android MCP"
+  short_description: "Control Android emulators for Codex testing"
+  default_prompt: "Use $ty-android-mcp to build, install, launch, and test an Android app in a safe local emulator."
+
+policy:
+  allow_implicit_invocation: true

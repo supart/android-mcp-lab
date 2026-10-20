@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-20",
+  "mode": "legacy-stdio",
+  "deviceId": "dsh_api36",
+  "status": "passed",
+  "toolCount": 57,
+  "prefix": "android_dsh36_",
+  "genericToolsHidden": true,
+  "deviceIdHidden": true,
+  "leaseIdHidden": true,
+  "readOnlyScreenCall": "passed",
+  "dataPolicy": "preserve",
+  "forbiddenDataSaved": false
+}

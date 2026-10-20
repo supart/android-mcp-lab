@@ -1,0 +1,1259 @@
+{
+  "schemaVersion": 1,
+  "upstreamVersion": "1.11.1",
+  "tools": [
+    {
+      "name": "get_screen_state",
+      "description": "Returns the current screen state: app info, screen dimensions, and a compact UI node list (text/desc truncated to 100 chars, use android_lab_openminis_api36_get_node_details to retrieve full values). Optionally includes a low-resolution screenshot (only request the screenshot when the node list alone is not sufficient to understand the screen layout). Includes a hierarchy section showing node nesting via indentation. Large screens are split into pages of 200 nodes: the response includes a 'page:N/total' line and a cursor; call again with that cursor to fetch the next page. You do NOT need to fetch every page — stop once you have found what you need. A screenshot can only be requested on page 1 (without a cursor).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "include_screenshot": {
+            "type": "boolean",
+            "description": "Include a low-resolution screenshot. Only request when the UI node list is not sufficient.",
+            "default": false
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from a previous response (format \"<id>.<page>\"). Omit to capture a fresh screen state starting at page 1. A cursor is tied to one screen snapshot; if the screen changed you will be told to request a fresh one."
+          }
+        },
+        "required": []
+      }
+    },
+    {
+      "name": "press_back",
+      "description": "Presses the back button (global accessibility action). Returns after the action is performed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "press_home",
+      "description": "Navigates to the home screen. Returns after the action is performed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "press_recents",
+      "description": "Opens the recent apps screen. Returns after the action is performed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "open_notifications",
+      "description": "Pulls down the notification shade. Returns after the action is performed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "open_quick_settings",
+      "description": "Opens the quick settings panel. Returns after the action is performed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "dismiss_keyboard",
+      "description": "Closes the on-screen keyboard if open; no-op if none (never navigates back). Use after typing to reveal elements it covers.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "tap",
+      "description": "Performs a single tap at the specified coordinates. Returns after the gesture completes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "description": "X coordinate"
+          },
+          "y": {
+            "type": "number",
+            "description": "Y coordinate"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      }
+    },
+    {
+      "name": "long_press",
+      "description": "Performs a long press at the specified coordinates. Returns after the gesture completes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "description": "X coordinate"
+          },
+          "y": {
+            "type": "number",
+            "description": "Y coordinate"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Press duration in ms",
+            "default": 1000
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      }
+    },
+    {
+      "name": "double_tap",
+      "description": "Performs a double tap at the specified coordinates. Returns after the gesture completes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "description": "X coordinate"
+          },
+          "y": {
+            "type": "number",
+            "description": "Y coordinate"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      }
+    },
+    {
+      "name": "swipe",
+      "description": "Performs a swipe gesture from one point to another. Returns after the gesture completes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "x1": {
+            "type": "number",
+            "description": "Start X coordinate"
+          },
+          "y1": {
+            "type": "number",
+            "description": "Start Y coordinate"
+          },
+          "x2": {
+            "type": "number",
+            "description": "End X coordinate"
+          },
+          "y2": {
+            "type": "number",
+            "description": "End Y coordinate"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Swipe duration in ms",
+            "default": 300
+          }
+        },
+        "required": [
+          "x1",
+          "y1",
+          "x2",
+          "y2"
+        ]
+      }
+    },
+    {
+      "name": "scroll",
+      "description": "Scrolls in the specified direction. Applies random variance to scroll distance and center point for more natural-looking gestures. Returns after the gesture completes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "direction": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down",
+              "left",
+              "right"
+            ]
+          },
+          "amount": {
+            "type": "string",
+            "enum": [
+              "small",
+              "medium",
+              "large"
+            ],
+            "default": "medium"
+          },
+          "variance": {
+            "type": "number",
+            "description": "Random variance percentage (0-20). Applied as ±variance% to scroll distance and center point.",
+            "default": 5,
+            "minimum": 0,
+            "maximum": 20
+          }
+        },
+        "required": [
+          "direction"
+        ]
+      }
+    },
+    {
+      "name": "pinch",
+      "description": "Performs a pinch-to-zoom gesture. Returns after the gesture completes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "center_x": {
+            "type": "number",
+            "description": "Center X coordinate"
+          },
+          "center_y": {
+            "type": "number",
+            "description": "Center Y coordinate"
+          },
+          "scale": {
+            "type": "number",
+            "description": "Scale factor (>1 = zoom in, <1 = zoom out)"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Gesture duration in ms",
+            "default": 300
+          }
+        },
+        "required": [
+          "center_x",
+          "center_y",
+          "scale"
+        ]
+      }
+    },
+    {
+      "name": "custom_gesture",
+      "description": "Executes a custom multi-touch gesture defined by path points. Returns after the gesture completes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "paths": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "time": {
+                    "type": "number",
+                    "description": "Time offset in ms"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "time"
+                ]
+              }
+            }
+          }
+        },
+        "required": [
+          "paths"
+        ]
+      }
+    },
+    {
+      "name": "find_nodes",
+      "description": "Find UI nodes matching the specified criteria (text, content_desc, resource_id, class_name)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "by": {
+            "type": "string",
+            "enum": [
+              "text",
+              "content_desc",
+              "resource_id",
+              "class_name"
+            ],
+            "description": "Search criteria type"
+          },
+          "value": {
+            "type": "string",
+            "description": "Search value"
+          },
+          "exact_match": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, match exactly. If false, match contains (case-insensitive)"
+          }
+        },
+        "required": [
+          "by",
+          "value"
+        ]
+      }
+    },
+    {
+      "name": "click_node",
+      "description": "Click the specified accessibility node by node ID. Returns after the click is performed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "description": "Node ID from android_lab_openminis_api36_find_nodes"
+          }
+        },
+        "required": [
+          "node_id"
+        ]
+      }
+    },
+    {
+      "name": "long_click_node",
+      "description": "Long-click the specified accessibility node by node ID. Returns after the action is performed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "description": "Node ID from android_lab_openminis_api36_find_nodes"
+          }
+        },
+        "required": [
+          "node_id"
+        ]
+      }
+    },
+    {
+      "name": "tap_node",
+      "description": "Performs a gesture-based tap at a random point within the bounds of the node identified by node_id. Unlike click_node (which uses the accessibility ACTION_CLICK), this performs a coordinate-based touch gesture. The tap point is randomized within the node bounds, inset by a configurable percentage (default 5%) from each edge to avoid hitting borders. Returns after the gesture completes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "description": "Node ID from android_lab_openminis_api36_find_nodes"
+          },
+          "inset_percentage": {
+            "type": "number",
+            "default": 5,
+            "description": "Percentage to inset from each edge of the node bounds (0.0-45.0). Default 5.0"
+          }
+        },
+        "required": [
+          "node_id"
+        ]
+      }
+    },
+    {
+      "name": "scroll_to_node",
+      "description": "Scroll to make the specified node visible. Returns after the action is performed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "description": "Node ID from android_lab_openminis_api36_find_nodes"
+          }
+        },
+        "required": [
+          "node_id"
+        ]
+      }
+    },
+    {
+      "name": "type_append_text",
+      "description": "Type text character by character at the end of a text field. Uses natural InputConnection typing (indistinguishable from keyboard input). Maximum text length: 2000 characters. For text longer than 2000 chars, call this tool multiple times — subsequent calls continue typing at the current cursor position. Returns the field content after the operation for verification. Typing leaves the keyboard open and may cover elements; call android_lab_openminis_api36_dismiss_keyboard before tapping them.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "description": "Target node ID to type into"
+          },
+          "text": {
+            "type": "string",
+            "description": "Text to type (must be non-empty, max 2000 characters)"
+          },
+          "typing_speed": {
+            "type": "integer",
+            "description": "Base delay between characters in ms (default: 250, min: 10, max: 5000)"
+          },
+          "typing_speed_variance": {
+            "type": "integer",
+            "description": "Random variance in ms, clamped to [0, typing_speed] (default: 50)"
+          }
+        },
+        "required": [
+          "node_id",
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "type_insert_text",
+      "description": "Type text character by character at a specific position in a text field. Uses natural InputConnection typing (indistinguishable from keyboard input). Maximum text length: 2000 characters. Returns the field content after the operation for verification. Typing leaves the keyboard open and may cover elements; call android_lab_openminis_api36_dismiss_keyboard before tapping them.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "description": "Target node ID to type into"
+          },
+          "text": {
+            "type": "string",
+            "description": "Text to type (must be non-empty, max 2000 characters)"
+          },
+          "offset": {
+            "type": "integer",
+            "description": "0-based character offset (UTF-16 code units) for cursor position. Must be within [0, current text length]. Note: emoji and other supplementary characters count as 2 units."
+          },
+          "typing_speed": {
+            "type": "integer",
+            "description": "Base delay between characters in ms (default: 250, min: 10, max: 5000)"
+          },
+          "typing_speed_variance": {
+            "type": "integer",
+            "description": "Random variance in ms, clamped to [0, typing_speed] (default: 50)"
+          }
+        },
+        "required": [
+          "node_id",
+          "text",
+          "offset"
+        ]
+      }
+    },
+    {
+      "name": "type_replace_text",
+      "description": "Find and replace text in a field by typing the replacement naturally. Finds the first occurrence of search text, deletes it, then types new_text character by character via InputConnection. Maximum new_text length: 2000 characters. Returns error if search text is not found. Returns the field content after the operation for verification. Typing leaves the keyboard open and may cover elements; call android_lab_openminis_api36_dismiss_keyboard before tapping them.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "description": "Target node ID"
+          },
+          "search": {
+            "type": "string",
+            "description": "Text to find in the field (first occurrence, max 10000 chars)"
+          },
+          "new_text": {
+            "type": "string",
+            "description": "Replacement text to type (max 2000 characters). Can be empty to just delete the found text."
+          },
+          "typing_speed": {
+            "type": "integer",
+            "description": "Base delay between characters in ms (default: 250, min: 10, max: 5000)"
+          },
+          "typing_speed_variance": {
+            "type": "integer",
+            "description": "Random variance in ms, clamped to [0, typing_speed] (default: 50)"
+          }
+        },
+        "required": [
+          "node_id",
+          "search",
+          "new_text"
+        ]
+      }
+    },
+    {
+      "name": "type_clear_text",
+      "description": "Clear all text from a field naturally using select-all + delete. Uses InputConnection operations (indistinguishable from user action). Returns the field content after the operation for verification. Typing leaves the keyboard open and may cover elements; call android_lab_openminis_api36_dismiss_keyboard before tapping them.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "description": "Target node ID to clear"
+          }
+        },
+        "required": [
+          "node_id"
+        ]
+      }
+    },
+    {
+      "name": "press_key",
+      "description": "Press a specific key (ENTER, BACK, DEL, HOME, TAB, SPACE)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "ENTER",
+              "BACK",
+              "DEL",
+              "HOME",
+              "TAB",
+              "SPACE"
+            ],
+            "description": "Key to press"
+          }
+        },
+        "required": [
+          "key"
+        ]
+      }
+    },
+    {
+      "name": "get_clipboard",
+      "description": "Get the current clipboard text content",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "set_clipboard",
+      "description": "Set the clipboard content to the specified text",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Text to set in clipboard"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "wait_for_node",
+      "description": "Wait until a node matching criteria appears (with timeout). Only use when you need a specific element to appear (e.g., after navigation). Action tools already wait for their gesture/action to complete before returning.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "by": {
+            "type": "string",
+            "enum": [
+              "text",
+              "content_desc",
+              "resource_id",
+              "class_name"
+            ],
+            "description": "Search criteria type"
+          },
+          "value": {
+            "type": "string",
+            "description": "Search value"
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "Timeout in milliseconds (1-30000)"
+          }
+        },
+        "required": [
+          "by",
+          "value",
+          "timeout"
+        ]
+      }
+    },
+    {
+      "name": "wait_for_idle",
+      "description": "Wait for the UI to become idle (similarity-based change detection). Only use when you need to confirm a specific UI transition completed (e.g., screen finished loading). Action tools already wait for their gesture/action to complete before returning.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "timeout": {
+            "type": "integer",
+            "description": "Timeout in milliseconds (1-30000)"
+          },
+          "match_percentage": {
+            "type": "integer",
+            "description": "Similarity threshold percentage (0-100, default 100). 100 = exact match, lower values tolerate minor UI changes",
+            "default": 100
+          }
+        },
+        "required": [
+          "timeout"
+        ]
+      }
+    },
+    {
+      "name": "get_node_details",
+      "description": "Retrieve full untruncated text and description for nodes by node_id. Use after android_lab_openminis_api36_get_screen_state when text or desc was truncated.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "node_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of node_ids to retrieve details for"
+          }
+        },
+        "required": [
+          "node_ids"
+        ]
+      }
+    },
+    {
+      "name": "list_storage_locations",
+      "description": "Lists available storage locations. Includes built-in locations (always available, no setup required) and user-added locations. Use the location ID from this list for all file operations.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "list_files",
+      "description": "Lists files and directories in a storage location. The location must be authorized. Returns name, path, type, size, last_modified, and mime_type for each entry.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "description": "The authorized storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path within the location (empty for root)",
+            "default": ""
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Number of entries to skip (0-based)",
+            "default": 0
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of entries to return (max 200)",
+            "default": 200
+          }
+        },
+        "required": [
+          "location_id"
+        ]
+      }
+    },
+    {
+      "name": "read_file",
+      "description": "Reads a text file from an authorized storage location with line-based pagination. Returns content with line numbers. Maximum 200 lines per call.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "description": "The authorized storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to the file"
+          },
+          "offset": {
+            "type": "integer",
+            "description": "1-based line number to start reading from",
+            "default": 1
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of lines to return (max 200)",
+            "default": 200
+          }
+        },
+        "required": [
+          "location_id",
+          "path"
+        ]
+      }
+    },
+    {
+      "name": "write_file",
+      "description": "Writes text content to a file in an authorized storage location. Creates the file if it doesn't exist. Creates parent directories automatically. Overwrites existing content. Pass empty content to create an empty file.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "description": "The authorized storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to the file"
+          },
+          "content": {
+            "type": "string",
+            "description": "The text content to write"
+          }
+        },
+        "required": [
+          "location_id",
+          "path",
+          "content"
+        ]
+      }
+    },
+    {
+      "name": "append_file",
+      "description": "Appends text content to an existing file in an authorized storage location. If the storage provider does not support append mode, an error is returned with a hint to use android_lab_openminis_api36_write_file instead.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "description": "The authorized storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to the file"
+          },
+          "content": {
+            "type": "string",
+            "description": "The text content to append"
+          }
+        },
+        "required": [
+          "location_id",
+          "path",
+          "content"
+        ]
+      }
+    },
+    {
+      "name": "file_replace",
+      "description": "Performs literal string replacement in a text file in an authorized storage location. Reads the file, performs replacement, and writes back. Uses advisory file locking when supported by the provider.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "description": "The authorized storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to the file"
+          },
+          "old_string": {
+            "type": "string",
+            "description": "The literal string to find"
+          },
+          "new_string": {
+            "type": "string",
+            "description": "The replacement string"
+          },
+          "replace_all": {
+            "type": "boolean",
+            "description": "If true, replace all occurrences; otherwise replace only the first",
+            "default": false
+          }
+        },
+        "required": [
+          "location_id",
+          "path",
+          "old_string",
+          "new_string"
+        ]
+      }
+    },
+    {
+      "name": "download_from_url",
+      "description": "Downloads a file from a URL and saves it to an authorized storage location. Creates the file and parent directories if they don't exist. Overwrites existing content. Subject to the configured file size limit and download timeout. HTTP downloads and unverified HTTPS certificates must be explicitly allowed in the app settings.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "description": "The authorized storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path for the destination file"
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL to download from"
+          }
+        },
+        "required": [
+          "location_id",
+          "path",
+          "url"
+        ]
+      }
+    },
+    {
+      "name": "delete_file",
+      "description": "Deletes a single file from an authorized storage location. Cannot delete directories.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "description": "The authorized storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to the file"
+          }
+        },
+        "required": [
+          "location_id",
+          "path"
+        ]
+      }
+    },
+    {
+      "name": "open_app",
+      "description": "Opens (launches) an application by its package ID. The app must be installed and have a launchable activity. Returns after the launch intent is sent.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "package_id": {
+            "type": "string",
+            "description": "The application package name (e.g., 'com.example.app')"
+          }
+        },
+        "required": [
+          "package_id"
+        ]
+      }
+    },
+    {
+      "name": "list_apps",
+      "description": "Lists installed applications on the device. Can filter by type (user, system, all) and by name substring.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "string",
+            "enum": [
+              "all",
+              "user",
+              "system"
+            ],
+            "description": "Filter by app type: 'all', 'user', or 'system'",
+            "default": "all"
+          },
+          "name_query": {
+            "type": "string",
+            "description": "Case-insensitive substring to filter by app name"
+          }
+        },
+        "required": []
+      }
+    },
+    {
+      "name": "close_app",
+      "description": "Kills a background application process. This only works for apps that are in the background. For foreground apps that are hung or unresponsive, first use the 'android_lab_openminis_api36_press_home' tool to send the app to the background, then call this tool. Note: some system processes may restart automatically after being killed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "package_id": {
+            "type": "string",
+            "description": "The application package name (e.g., 'com.example.app')"
+          }
+        },
+        "required": [
+          "package_id"
+        ]
+      }
+    },
+    {
+      "name": "list_cameras",
+      "description": "Lists all available cameras on the device with their capabilities (facing direction, flash support, photo/video support).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "list_camera_photo_resolutions",
+      "description": "Lists supported photo resolutions for a specific camera. Use the camera_id from list_cameras.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "camera_id": {
+            "type": "string",
+            "description": "Camera identifier from list_cameras"
+          }
+        },
+        "required": [
+          "camera_id"
+        ]
+      }
+    },
+    {
+      "name": "list_camera_video_resolutions",
+      "description": "Lists supported video resolutions for a specific camera. Use the camera_id from list_cameras.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "camera_id": {
+            "type": "string",
+            "description": "Camera identifier from list_cameras"
+          }
+        },
+        "required": [
+          "camera_id"
+        ]
+      }
+    },
+    {
+      "name": "take_camera_photo",
+      "description": "Captures a photo from the specified camera and returns it as a base64-encoded JPEG image. Default resolution is 720p (closest available match). Maximum resolution is capped at 1920x1080 to prevent excessively large responses. Use save_camera_photo for higher resolutions.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "camera_id": {
+            "type": "string",
+            "description": "Camera identifier from list_cameras"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Resolution as WIDTHxHEIGHT (e.g., '1280x720'). Default: 720p closest match. Max: 1920x1080."
+          },
+          "quality": {
+            "type": "integer",
+            "description": "JPEG quality (1-100). Default: 80."
+          },
+          "flash_mode": {
+            "type": "string",
+            "description": "Flash mode: 'off', 'on', or 'auto'. Default: 'auto'."
+          }
+        },
+        "required": [
+          "camera_id"
+        ]
+      }
+    },
+    {
+      "name": "save_camera_photo",
+      "description": "Captures a photo from the specified camera and saves it to a storage location. Requires write permission on the storage location. Default resolution is 720p (closest available match).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "camera_id": {
+            "type": "string",
+            "description": "Camera identifier from list_cameras"
+          },
+          "location_id": {
+            "type": "string",
+            "description": "Storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative file path (e.g., 'photos/photo.jpg')"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Resolution as WIDTHxHEIGHT (e.g., '1280x720'). Default: 720p closest match."
+          },
+          "quality": {
+            "type": "integer",
+            "description": "JPEG quality (1-100). Default: 80."
+          },
+          "flash_mode": {
+            "type": "string",
+            "description": "Flash mode: 'off', 'on', or 'auto'. Default: 'auto'."
+          }
+        },
+        "required": [
+          "camera_id",
+          "location_id",
+          "path"
+        ]
+      }
+    },
+    {
+      "name": "save_camera_video",
+      "description": "Records a video from the specified camera and saves it to a storage location. Maximum duration is 30 seconds. Includes audio by default. Requires write permission on the storage location. Returns a thumbnail of the first frame. Default resolution is 720p (closest available match).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "camera_id": {
+            "type": "string",
+            "description": "Camera identifier from list_cameras"
+          },
+          "location_id": {
+            "type": "string",
+            "description": "Storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative file path (e.g., 'videos/video.mp4')"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Recording duration in seconds (1-30)."
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Resolution as WIDTHxHEIGHT (e.g., '1280x720'). Default: 720p closest match."
+          },
+          "audio": {
+            "type": "boolean",
+            "description": "Whether to record audio. Default: true. Requires RECORD_AUDIO permission."
+          },
+          "flash_mode": {
+            "type": "string",
+            "description": "Flash mode: 'off', 'on', or 'auto'. Default: 'auto'."
+          }
+        },
+        "required": [
+          "camera_id",
+          "location_id",
+          "path",
+          "duration"
+        ]
+      }
+    },
+    {
+      "name": "send_intent",
+      "description": "Send an Android intent. Supports starting activities, sending broadcasts, and starting services. Use for opening specific settings pages, triggering app-specific actions, or sending broadcasts.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The intent delivery type: 'activity', 'broadcast', or 'service'"
+          },
+          "action": {
+            "type": "string",
+            "description": "The intent action (e.g., 'android.intent.action.VIEW')"
+          },
+          "data": {
+            "type": "string",
+            "description": "Data URI for the intent"
+          },
+          "component": {
+            "type": "string",
+            "description": "Target component as 'package/class' (e.g., 'com.example.app/com.example.app.MyActivity')"
+          },
+          "package": {
+            "type": "string",
+            "description": "Target package scoping delivery (maps to Intent.setPackage(), equivalent to 'am ... -p'). For broadcasts this reaches a manifest-declared receiver in that app without needing the receiver's class name (e.g., 'com.example.app')"
+          },
+          "extras": {
+            "type": "object",
+            "description": "Key-value extras. Values auto-typed: string→String, integer→Int/Long, decimal→Double, boolean→Boolean, string array→StringArrayList"
+          },
+          "extras_types": {
+            "type": "object",
+            "description": "Type overrides for extras keys. Supported: 'string', 'int', 'long', 'float', 'double', 'boolean'"
+          },
+          "flags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Intent flag names (e.g., 'FLAG_ACTIVITY_CLEAR_TOP'). FLAG_ACTIVITY_NEW_TASK auto-added for activity type."
+          }
+        },
+        "required": [
+          "type"
+        ]
+      }
+    },
+    {
+      "name": "open_uri",
+      "description": "Open a URI using Android's ACTION_VIEW. Handles https://, http://, tel:, mailto:, geo:, content:// URLs, deep links, and custom app schemes (e.g., whatsapp://send?phone=...).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "uri": {
+            "type": "string",
+            "description": "The URI to open"
+          },
+          "package_name": {
+            "type": "string",
+            "description": "Force a specific app to handle the URI"
+          },
+          "mime_type": {
+            "type": "string",
+            "description": "MIME type hint (useful for content:// URIs)"
+          }
+        },
+        "required": [
+          "uri"
+        ]
+      }
+    },
+    {
+      "name": "notification_list",
+      "description": "List active notifications with structured data (app, title, text, actions, timestamp). Returns notification_id for each notification and action_id for each action button.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "package_name": {
+            "type": "string",
+            "description": "Filter by source app package name"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of notifications to return"
+          }
+        },
+        "required": []
+      }
+    },
+    {
+      "name": "notification_open",
+      "description": "Open/tap a notification (fires its content intent). Use notification_id from notification_list.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "description": "The notification_id from notification_list"
+          }
+        },
+        "required": [
+          "notification_id"
+        ]
+      }
+    },
+    {
+      "name": "notification_dismiss",
+      "description": "Dismiss/remove a notification. Use notification_id from notification_list.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "description": "The notification_id from notification_list"
+          }
+        },
+        "required": [
+          "notification_id"
+        ]
+      }
+    },
+    {
+      "name": "notification_snooze",
+      "description": "Snooze a notification for a duration. The notification reappears after the specified time. Use notification_id from notification_list.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "notification_id": {
+            "type": "string",
+            "description": "The notification_id from notification_list"
+          },
+          "duration_ms": {
+            "type": "integer",
+            "description": "Snooze duration in milliseconds (must be positive, max 604800000 = 7 days)"
+          }
+        },
+        "required": [
+          "notification_id",
+          "duration_ms"
+        ]
+      }
+    },
+    {
+      "name": "notification_action",
+      "description": "Execute a notification action button. Use action_id from notification_list.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "description": "The action_id from notification_list"
+          }
+        },
+        "required": [
+          "action_id"
+        ]
+      }
+    },
+    {
+      "name": "notification_reply",
+      "description": "Reply to a notification action that accepts text input (e.g., messaging apps). Use action_id from notification_list where accepts_text is true.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "description": "The action_id from notification_list (must have accepts_text=true)"
+          },
+          "text": {
+            "type": "string",
+            "description": "The reply text to send"
+          }
+        },
+        "required": [
+          "action_id",
+          "text"
+        ]
+      }
+    },
+    {
+      "name": "get_location",
+      "description": "Retrieves the device's current location including coordinates, accuracy, and street address. Returns latitude, longitude, accuracy in meters (68% confidence radius), and street address (may be null if reverse geocoding is unavailable). Parameter 'fresh_fix': if true, requests a fresh GPS fix which may take up to 10 seconds; if false (default), returns the last known location which is faster but may be stale. Requires ACCESS_FINE_LOCATION permission to be granted on the device. Requires Google Play Services to be available on the device.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "fresh_fix": {
+            "type": "boolean",
+            "description": "If true, requests a fresh GPS fix (may take up to 10 seconds). If false (default), returns last known location (faster but possibly stale)."
+          }
+        },
+        "required": []
+      }
+    },
+    {
+      "name": "get_shared_content",
+      "description": "Returns and clears items shared to this app via Android Share (text, images, files); read-once (re-share to read again). Prefer this over the clipboard when content can be shared directly to this app. Text and textual files are returned inline; images return a downscaled view plus a full-res download URL; other files return a fetch URL (web_fetch reads PDF).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "share_file_via_web",
+      "description": "Exposes a device file (location_id + path) as a temporary fetch URL (expires 1h, multiple fetches allowed). Use to let the agent read a device PDF/text via web_fetch, or to give the user a download link. The file is served from memory, so it is limited to 64 MB or the configured file-size limit, whichever is smaller.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "description": "The authorized storage location identifier"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to the file within the location"
+          }
+        },
+        "required": [
+          "location_id",
+          "path"
+        ]
+      }
+    }
+  ]
+}
